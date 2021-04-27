@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { DashboardCardComponentModule } from '../dashboard-card/dashboard-card.module';
 
-import { Tab1Page } from './tab1.page';
+import { DashboardCardComponent } from './dashboard-card.component';
 
-describe('Tab1Page', () => {
-  let component: Tab1Page;
-  let fixture: ComponentFixture<Tab1Page>;
+describe('DashboardCardComponent', () => {
+  let component: DashboardCardComponent;
+  let fixture: ComponentFixture<DashboardCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [Tab1Page],
-      imports: [IonicModule.forRoot(), DashboardCardComponentModule]
+      declarations: [ DashboardCardComponent ],
+      imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Tab1Page);
+    fixture = TestBed.createComponent(DashboardCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
