@@ -11,17 +11,13 @@
     <ion-toolbar>
       <ion-title size="large">My Dashboard</ion-title>
     </ion-toolbar>
+    <!-- <ion-button (click)="toggleReorder()">Reorder</ion-button> -->
   </ion-header>
 
   <!-- Repeat for each thing that goes on the dashboard -->
   <!-- TODO: make this a more dynamic view based on number of items to display -->
-  <ion-row>
-    <ion-col size="6">
-      <dashboard-card name="Habit" habitName="Breathe">
+  <ion-reorder-group id='reorder' disabled='false'(ionItemReorder)="doReorder($event)">
+    <dashboard-card *ngFor='let habit of habits' habitName={{habit.habitName}} habitType={{habit.habitType}}></dashboard-card>
+  </ion-reorder-group>
 
-      </dashboard-card>
-    </ion-col>
-  </ion-row>
-
-  <!-- <app-explore-container name="Welcome"></app-explore-container> -->
 </ion-content>

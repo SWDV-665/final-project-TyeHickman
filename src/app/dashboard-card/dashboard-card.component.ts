@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./dashboard-card.component.scss'],
 })
 export class DashboardCardComponent implements OnInit {
-  @Input() name: string;
   @Input() habitName: string;
+  @Input() habitType: string;
 
   constructor() { }
 
