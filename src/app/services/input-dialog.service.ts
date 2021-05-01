@@ -1,32 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-// TODO: import the habit service when created
+import { ActionSheetController } from '@ionic/angular'
+import { HabitDataService } from './habit-data.service';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InputDialogService {
 
-  constructor(public alertController: AlertController,) { 
+  constructor(public alertController: AlertController,
+              public actionSheetController: ActionSheetController,
+              public dataService: HabitDataService,
+              private vibration: Vibration) { 
     console.log("Initate INPUT DIALOG SERVICE");
   }
 
-  async showPrompt(item?, index?) {
+  async showPrompt(habit?, index?) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: item ? 'Edit Item' : 'Add Item',
+      header: habit ? 'Edit Habit' : 'Add Habit',
       // message: item ? "Please edit item..." : "Please add item...",
-      message: "Please " + (item ? "edit" : "add") + " item...",
+      message: "Please " + (habit ? "edit" : "add") + " habit...",
       inputs: [
         {
-          name: 'name',
+          name: 'habitName',
           type: 'text',
-          value: item ? item.name : null
+          value: habit ? habit.habitName : null
         },
         {
-          name: 'quantity',
-          type: 'number',
-          value: item ? item.quantity : null
+          name: 'habitType',
+          type: 'text',
+          value: habit ? habit.habitType : null
         }
       ],
       buttons: [
@@ -50,12 +55,12 @@ export class InputDialogService {
           handler: data => {
             console.log('Saving data... ' + data);
             if (index !== undefined) {
-              item.name = data.name;
-              item.quantity = data.quantity;
-              this.dataService.editItem(item,index);
+              habit.habitName = data.habitName;
+              habit.habitType = data.habitType;
+              this.dataService.editHabit(habit,index);
             }
             else {
-              this.dataService.addItem(data);
+              this.dataService.addHabit(data);
             }
           }
         }
@@ -63,6 +68,43 @@ export class InputDialogService {
     });
 
     await alert.present();
+  }
+
+  // This is used in the Dashboards
+  async presentActionSheet(habit,index) {
+    const actionSheet = await this.actionSheetController.create({
+      header: habit.habitName + ' Options',
+      buttons: [
+        // {
+        //   text: 'Share',
+        //   icon: 'share',
+        //   handler: () => {
+        //     console.log('Share clicked');
+        //   }
+        // }, 
+        {
+          text: 'I did this',
+          icon: (habit.habitType == 'Break' ? 'remove':'add') + '-circle' ,
+          handler: () => {
+            console.log('Tracking clicked');
+            console.log('Cordova vibration...');
+            this.vibration.vibrate(500);
+            habit.Occurences = habit.Occurences + 1;
+            console.log(habit.Occurences);
+            this.dataService.editHabit(habit, index)
+          }
+        }, 
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
   }
 
 }

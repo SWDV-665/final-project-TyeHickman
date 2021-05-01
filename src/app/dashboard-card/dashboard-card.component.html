@@ -1,19 +1,13 @@
 <ion-card>
-  <ion-reorder>
-    <ion-card-header>
-      <ion-card-title>{{ habitName }}</ion-card-title>
-      <ion-card-subtitle>{{ habitType }}
-      </ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-item class="ion-activated">
-      <ion-icon name="{{habitType == 'BREAK' ? 'warning' : 'leaf'}}" slot="start"></ion-icon>
-      <ion-label>Card Link Item 1 activated</ion-label>
+  <ion-card-header>
+    <ion-card-title>{{ habitName }}</ion-card-title>
+    <ion-card-subtitle>Let's Work To {{habitType}} This Habit!</ion-card-subtitle>
+  </ion-card-header>
+  
+  <ion-item class="ion-activated">
+    <ion-icon name="{{habitType == 'Break' ? 'warning' : 'leaf'}}"></ion-icon>
+    <!-- TODO: add next occurence here -->
+    <ion-label>{{habitType}} &nbsp; {{habitOccurences}}</ion-label>
+    <ion-reorder slot="end"></ion-reorder>
     </ion-item>
-    <ion-item>
-      <ion-icon name="walk" slot="start"></ion-icon>
-      <ion-label>Card Button Item 2</ion-label>
-    </ion-item>
-
-  </ion-reorder>
 </ion-card>

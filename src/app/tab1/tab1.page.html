@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      My Dashboard
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">My Dashboard</ion-title>
+      <ion-title size="large">{{title}}</ion-title>
     </ion-toolbar>
     <!-- <ion-button (click)="toggleReorder()">Reorder</ion-button> -->
   </ion-header>
@@ -17,7 +17,13 @@
   <!-- Repeat for each thing that goes on the dashboard -->
   <!-- TODO: make this a more dynamic view based on number of items to display -->
   <ion-reorder-group id='reorder' disabled='false'(ionItemReorder)="doReorder($event)">
-    <dashboard-card *ngFor='let habit of habits' habitName={{habit.habitName}} habitType={{habit.habitType}}></dashboard-card>
+    <dashboard-card *ngFor='let habit of habits; let i = index;'
+    habitName={{habit.habitName}}
+    habitType={{habit.habitType}}
+    habitOccurences={{habit.Occurences}}
+    (click)="openHabitOptions(habit, i)" 
+    > 
+    </dashboard-card>
   </ion-reorder-group>
 
 </ion-content>

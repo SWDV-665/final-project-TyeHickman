@@ -7,7 +7,7 @@ import { map, catchError} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HabitDataService {
-  items: any = [];
+  habits: any = [];
   
   dataChanged$: Observable<boolean>;
 
@@ -23,9 +23,9 @@ export class HabitDataService {
     console.log(this.dataChanged$);
   }
 
-  // TODO: changed URL
-  getItems(): Observable<any> {
-    return this.http.get(this.baseURL + '/api/groceries').pipe(
+  
+  getHabits(): Observable<any> {
+    return this.http.get(this.baseURL + '/api/habits').pipe(
       map(this.extractData),
       catchError(this.handleError)
     );
@@ -48,33 +48,32 @@ export class HabitDataService {
     return Observable.throw(errMsg);
   }
 
-  // TODO: changed URL
-  removeItem(id) {
-    console.log("Remove item:  " + id);
-    this.http.delete(this.baseURL + '/api/groceries/' + id).subscribe(res => {
-      this.items = res;
+  removeHabit(id) {
+    console.log("Remove Habit:  " + id);
+    this.http.delete(this.baseURL + '/api/habits/' + id).subscribe(res => {
+      this.habits = res;
       this.dataChangeSubject.next(true);
     });
   }
 
-  // TODO: changed URL
-  addItem(item) {
-    // this.items.push(item);
-    console.log("Adding item - " + item.name);
-    this.http.post(this.baseURL + '/api/groceries', item).subscribe(res => {
-      this.items = res;
+  
+  addHabit(habit) {
+    console.log("Adding item - " + habit.name);
+    this.http.post(this.baseURL + '/api/habits', habit).subscribe(res => {
+      this.habits = res;
       this.dataChangeSubject.next(true);
     });
   }
 
-  // TODO: changed URL
-  editItem(item, index) {
-    console.log('Editing Item... ' + item._id);
-    this.http.put(this.baseURL + '/api/groceries/' + item._id, item).subscribe(res => {
-      this.items= res;
+  
+  editHabit(habit, index) {
+    console.log('Editing Item... ' + habit._id);
+    this.http.put(this.baseURL + '/api/habits/' + habit._id, habit).subscribe(res => {
+      this.habits= res;
       this.dataChangeSubject.next(true);
     });
-    // this.items[index] = item;
   }
+
+  
 
 }

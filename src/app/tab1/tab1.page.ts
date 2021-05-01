@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { ToastController } from '@ionic/angular';
-import { InputDialogService } from '../services/input-dialog-service.service';
-// TODO: Import habit data service when created
+import { InputDialogService } from '../services/input-dialog.service';
+import { HabitDataService } from '../services/habit-data.service';
 
 @Component({
   selector: 'app-tab1',
@@ -12,19 +12,32 @@ import { InputDialogService } from '../services/input-dialog-service.service';
 })
 export class Tab1Page {
   title = "Dashboard";
-  habits = [
-    {
-      habitName: "Mindful Breathing",
-      habitType: "Build"
-    },
-    {
-      habitName: "Nail Biting",
-      habitType: "Break"
-    }
-  ];
+  habits = [];
+  errorMessage: string;
 
   constructor(public toastController: ToastController,
-              public inputDialogService: InputDialogService,) {}
+              public dataService: HabitDataService,
+              public inputDialogService: InputDialogService,) {
+                dataService.dataChanged$.subscribe((dataChanged: boolean) => {
+                  this.loadItems();
+                  console.log("Data Changed");
+                });
+  }
+
+//lifecycle for loading items when view enters:
+ionViewDidEnter() {
+  console.log("did load...");
+  this.loadItems();
+}
+
+  loadItems() {
+    this.dataService.getHabits()
+      .subscribe(
+        habits => this.habits = habits,
+        error => this.errorMessage = <any>error
+      );
+    console.log("loading available habits from service...")
+  }
 
   toggleReorder() {
     const reorderGroup = (document.getElementById('reorder') as any);
@@ -42,9 +55,9 @@ export class Tab1Page {
     ev.detail.complete();
   }
 
-  addItem() {
-    console.log("Adding Item...");
-    this.inputDialogService.showPrompt();
+  openHabitOptions(habit, index) {
+    console.log("Opening Habit " + habit.habitName);
+    this.inputDialogService.presentActionSheet(habit, index);
   }
 
 }

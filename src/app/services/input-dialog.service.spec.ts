@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InputDialogService } from './input-dialog-service.service';
+import { InputDialogService } from './input-dialog.service';
 
 describe('InputDialogServiceService', () => {
   let service: InputDialogService;
