@@ -31,3 +31,7 @@ The mySelf-server will create the correct collection. To seed the mongoDB after 
 Habits can also be added from the user interface in the 'My Habits' tab but both options require and instance of mongoDB and its daemon process to be running.
 
 A link to the mySelf server repo will be submitted with this assignment.
+
+---
+
+I've included a .zip archive of the mySelf server in this repo. To use it, extract the mySelf-server.zip to anywhere outside the root of this project and follow the steps in the project's README.md file to get it up and runnig.
